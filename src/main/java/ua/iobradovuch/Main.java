@@ -38,6 +38,11 @@ public class Main {
                 .withElement("Magic Mist")
                 .build();
         System.out.println("Built Magic Location: " + enchantedForest);
+        MagicLocation enchantedDesert = new MagicLocation.Builder()
+                .withElement("Sandy wind")
+                .withName("Enchanted Desert")
+                .build();
+        System.out.println("Built Magic Location: " + enchantedDesert);
 
         // Singleton
         WiseDragon wiseDragon = WiseDragon.getInstance();
