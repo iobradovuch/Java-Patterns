@@ -18,18 +18,21 @@ public class Main {
         ElementKeeper clonedKeeper = originalKeeper.clone();
         System.out.println("Original Keeper: " + originalKeeper);
         System.out.println("Cloned Keeper: " + clonedKeeper);
+        System.out.println();
 
         // Factory Method
         List<String> monsterTypes = Arrays.asList("Fire", "Ice");
         monsterTypes.stream()
                 .map(Monster::createMonster)
                 .forEach(monster -> System.out.println("Created Monster: " + monster));
+        System.out.println();
 
         // Abstract Factory
         List<ArtifactFactory> factories = Arrays.asList(new FireArtifactFactory(), new IceArtifactFactory());
         factories.stream()
                 .map(ArtifactFactory::createArtifact)
                 .forEach(artifact -> System.out.println("Created Artifact: " + artifact));
+        System.out.println();
 
         // Builder
         MagicLocation enchantedForest = new MagicLocation.Builder()
@@ -43,6 +46,7 @@ public class Main {
                 .withName("Enchanted Desert")
                 .build();
         System.out.println("Built Magic Location: " + enchantedDesert);
+        System.out.println();
 
         // Singleton
         WiseDragon wiseDragon = WiseDragon.getInstance();
