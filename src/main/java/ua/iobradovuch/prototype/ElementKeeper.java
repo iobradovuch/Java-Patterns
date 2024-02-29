@@ -19,7 +19,7 @@ public class ElementKeeper implements Cloneable {
         try {
             return (ElementKeeper) super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new AssertionError(); // Can never happen
+            throw new AssertionError();
         }
     }
 }

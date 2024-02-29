@@ -7,7 +7,6 @@ public class WiseDragon {
     private static WiseDragon instance;
 
     private WiseDragon() {
-        // Private constructor to prevent instantiation
     }
 
     public static synchronized WiseDragon getInstance() {
@@ -15,5 +14,8 @@ public class WiseDragon {
             instance = new WiseDragon();
         }
         return instance;
+    }
+    public void getAdvice() {
+        System.out.println("Get more sleep");
     }
 }

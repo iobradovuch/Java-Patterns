@@ -13,25 +13,25 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // Prototype Pattern Demonstration
+        // Prototype
         ElementKeeper originalKeeper = new ElementKeeper("Fire", "Flame Control", "Red Robes");
         ElementKeeper clonedKeeper = originalKeeper.clone();
         System.out.println("Original Keeper: " + originalKeeper);
         System.out.println("Cloned Keeper: " + clonedKeeper);
 
-        // Factory Method Pattern Demonstration
+        // Factory Method
         List<String> monsterTypes = Arrays.asList("Fire", "Ice");
         monsterTypes.stream()
                 .map(Monster::createMonster)
                 .forEach(monster -> System.out.println("Created Monster: " + monster));
 
-        // Abstract Factory Pattern Demonstration
+        // Abstract Factory
         List<ArtifactFactory> factories = Arrays.asList(new FireArtifactFactory(), new IceArtifactFactory());
         factories.stream()
                 .map(ArtifactFactory::createArtifact)
                 .forEach(artifact -> System.out.println("Created Artifact: " + artifact));
 
-        // Builder Pattern Demonstration
+        // Builder
         MagicLocation enchantedForest = new MagicLocation.Builder()
                 .withName("Enchanted Forest")
                 .withElement("Trees")
@@ -39,8 +39,9 @@ public class Main {
                 .build();
         System.out.println("Built Magic Location: " + enchantedForest);
 
-        // Singleton Pattern Demonstration
+        // Singleton
         WiseDragon wiseDragon = WiseDragon.getInstance();
         System.out.println("Wise Dragon: " + wiseDragon);
+        wiseDragon.getAdvice();
     }
 }

@@ -1,20 +1,16 @@
 package ua.iobradovuch.factoryMethod;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString
+@AllArgsConstructor
 public abstract class Monster {
     private String type;
     private String attack;
     private String weakness;
-
-    protected Monster(String type, String attack, String weakness) {
-        this.type = type;
-        this.attack = attack;
-        this.weakness = weakness;
-    }
 
     public static Monster createMonster(String type) {
         switch (type) {
