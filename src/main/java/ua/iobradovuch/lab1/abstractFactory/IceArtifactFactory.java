@@ -1,4 +1,4 @@
-package ua.iobradovuch.abstractFactory;
+package ua.iobradovuch.lab1.abstractFactory;
 
 public class IceArtifactFactory implements ArtifactFactory {
     @Override

@@ -1,4 +1,4 @@
-package ua.iobradovuch.abstractFactory;
+package ua.iobradovuch.lab1.abstractFactory;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

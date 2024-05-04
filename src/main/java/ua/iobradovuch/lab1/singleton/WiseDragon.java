@@ -1,4 +1,4 @@
-package ua.iobradovuch.singleton;
+package ua.iobradovuch.lab1.singleton;
 
 import lombok.ToString;
 

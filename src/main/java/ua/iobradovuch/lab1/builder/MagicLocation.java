@@ -1,4 +1,4 @@
-package ua.iobradovuch.builder;
+package ua.iobradovuch.lab1.builder;
 
 import lombok.Getter;
 import lombok.ToString;

@@ -1,4 +1,4 @@
-package ua.iobradovuch.prototype;
+package ua.iobradovuch.lab1.prototype;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
