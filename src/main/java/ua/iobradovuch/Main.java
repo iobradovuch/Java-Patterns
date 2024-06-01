@@ -21,7 +21,32 @@ import ua.iobradovuch.lab2.proxy.PaymentProxy;
 import ua.iobradovuch.lab2.wrapper.GooglePaymentService;
 import ua.iobradovuch.lab2.wrapper.PayPalPaymentService;
 import ua.iobradovuch.lab2.wrapper.PaymentServiceWrapper;
+import ua.iobradovuch.lab3.chainOfResponsibility.AttackHandler;
+import ua.iobradovuch.lab3.chainOfResponsibility.CriticalAttackHandler;
+import ua.iobradovuch.lab3.chainOfResponsibility.NormalAttackHandler;
+import ua.iobradovuch.lab3.command.CastSpellCommand;
+import ua.iobradovuch.lab3.command.PlayerCommand;
+import ua.iobradovuch.lab3.command.UseItemCommand;
+import ua.iobradovuch.lab3.iterator.PartyIterator;
+import ua.iobradovuch.lab3.mediator.PartyMediator;
+import ua.iobradovuch.lab3.mediator.PartyMediatorImpl;
+import ua.iobradovuch.lab3.memento.PlayerMemento;
+import ua.iobradovuch.lab3.models.*;
+import ua.iobradovuch.lab3.observer.PlayerQuestObserver;
+import ua.iobradovuch.lab3.observer.QuestSubject;
+import ua.iobradovuch.lab3.state.CombatState;
+import ua.iobradovuch.lab3.state.PlayerContext;
+import ua.iobradovuch.lab3.strategy.BuffStrategy;
+import ua.iobradovuch.lab3.strategy.DefenseBuffStrategy;
+import ua.iobradovuch.lab3.strategy.StrengthBuffStrategy;
+import ua.iobradovuch.lab3.templateMethod.LevelUpBehavior;
+import ua.iobradovuch.lab3.templateMethod.MageLevelUpBehavior;
+import ua.iobradovuch.lab3.templateMethod.WarriorLevelUpBehavior;
+import ua.iobradovuch.lab3.visitor.PlayerBuffVisitor;
+import ua.iobradovuch.lab3.visitor.PlayerPrintVisitor;
+import ua.iobradovuch.lab3.visitor.PlayerVisitor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -143,5 +168,95 @@ public class Main {
 
         paymentProxy.setCurrentPaymentService("google");
         paymentProxy.processPayment(50.0);
+
+        //lab3
+        // Create players
+        Warrior warrior = new Warrior("Warrior1");
+        Mage mage = new Mage("Mage1");
+
+        // Command
+        PlayerCommand castSpellCommand = new CastSpellCommand(warrior, new Spell("Fireball", 10));
+        PlayerCommand useItemCommand = new UseItemCommand(mage, new Item("Health Potion", 20));
+
+        castSpellCommand.execute();
+        useItemCommand.execute();
+
+        // Mediator
+        PartyMediator partyMediator = new PartyMediatorImpl();
+        partyMediator.addPlayer(warrior);
+        partyMediator.addPlayer(mage);
+
+        partyMediator.sendMessage(warrior, "Hello party!");
+
+        // Observer
+        QuestSubject questSubject = new QuestSubject();
+        questSubject.addObserver(new PlayerQuestObserver(warrior));
+        questSubject.addObserver(new PlayerQuestObserver(mage));
+
+        questSubject.notifyObservers("New quest available!");
+
+        // State
+        PlayerContext playerContext = new PlayerContext();
+        playerContext.request();
+        playerContext.setState(new CombatState());
+        playerContext.request();
+
+        // Strategy
+        BuffStrategy strengthBuff = new StrengthBuffStrategy();
+        BuffStrategy defenseBuff = new DefenseBuffStrategy();
+
+        strengthBuff.applyBuff(warrior);
+        defenseBuff.applyBuff(mage);
+
+        // Template Method
+        LevelUpBehavior warriorLevelUp = new WarriorLevelUpBehavior();
+        LevelUpBehavior mageLevelUp = new MageLevelUpBehavior();
+
+        warriorLevelUp.levelUp(warrior);
+        mageLevelUp.levelUp(mage);
+
+        // Visitor
+        PlayerVisitor printVisitor = new PlayerPrintVisitor();
+        PlayerVisitor buffVisitor = new PlayerBuffVisitor();
+
+        warrior.accept(printVisitor);
+        mage.accept(printVisitor);
+
+        warrior.accept(buffVisitor);
+        mage.accept(buffVisitor);
+
+        // Chain of Responsibility
+        AttackHandler normalAttackHandler = new NormalAttackHandler();
+        AttackHandler criticalAttackHandler = new CriticalAttackHandler();
+
+        normalAttackHandler.setNext(criticalAttackHandler);
+
+        normalAttackHandler.handleAttack(warrior, mage);
+
+        // Iterator
+        List<Player> partyMembers = new ArrayList<>();
+        partyMembers.add(warrior);
+        partyMembers.add(mage);
+
+        PartyIterator partyIterator = new PartyIterator(partyMembers);
+        while (partyIterator.hasNext()) {
+            Player player = partyIterator.next();
+            System.out.println("Party member: " + player.getName());
+        }
+
+        // Memento
+        PlayerMemento warriorMemento = warrior.saveState();
+        System.out.println("Warrior state saved");
+
+        warrior.setLevel(10);
+        warrior.setExperience(5000);
+
+        System.out.println("Warrior current level: " + warrior.getLevel());
+        System.out.println("Warrior current experience: " + warrior.getExperience());
+
+        warrior.restoreState(warriorMemento);
+        System.out.println("Warrior state restored");
+        System.out.println("Warrior level after restoration: " + warrior.getLevel());
+        System.out.println("Warrior experience after restoration: " + warrior.getExperience());
     }
 }
