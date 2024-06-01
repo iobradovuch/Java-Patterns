@@ -1,4 +1,4 @@
-package ua.iobradovuch.lab5;
+package ua.iobradovuch.lab5.part1;
 
 public class User {
     private String username;
